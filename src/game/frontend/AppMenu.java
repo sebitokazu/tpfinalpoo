@@ -2,6 +2,7 @@ package game.frontend;
 
 import javafx.application.Platform;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.util.Optional;
 
@@ -22,7 +23,24 @@ public class AppMenu extends MenuBar {
                 }
             }
         });
+        MenuItem backToMainMenuItem = new MenuItem("Menu Principal");
+        backToMainMenuItem.setOnAction(event -> {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Salir");
+            alert.setHeaderText("Salir al menu principal");
+            alert.setContentText("¿Está seguro que desea salir de la aplicación? Se perdera el juego en progreso.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.isPresent()){
+                if(result.get() == ButtonType.OK){
+                    Stage currentStage = (Stage) getScene().getWindow();
+                    MainMenu mainMenu = new MainMenu();
+                    mainMenu.start(new Stage());
+                    currentStage.close();
+                }
+            }
+        });
         file.getItems().add(exitMenuItem);
+        file.getItems().add(backToMainMenuItem);
         Menu help = new Menu("Ayuda");
         MenuItem aboutMenuItem = new MenuItem("Acerca De");
         aboutMenuItem.setOnAction(event -> {
