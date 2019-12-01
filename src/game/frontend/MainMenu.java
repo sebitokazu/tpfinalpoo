@@ -1,6 +1,9 @@
 package game.frontend;
 
+import game.backend.level.Level;
+import game.backend.level.Level1;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,14 +30,13 @@ public class MainMenu extends Application {
         imageView.setFitWidth(1200*0.40);
         imageView.setPreserveRatio(true);
 
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().add("Level 1");
-        choiceBox.getItems().add("Level 2");
-        choiceBox.getItems().add("Level 3");
+        Level[] levels = {new Level1()};
+        ChoiceBox<Level> choiceBox = new ChoiceBox<>(FXCollections.observableArrayList(levels));
+
 
         Button playButton = new Button("Play!");
         playButton.setOnAction(actionEvent->{
-            GameApp gameApp = new GameApp();
+            GameApp gameApp = new GameApp(choiceBox.getValue());
             gameApp.start(new Stage());
             primaryStage.close();
         });
