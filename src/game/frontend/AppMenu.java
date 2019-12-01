@@ -33,8 +33,8 @@ public class AppMenu extends MenuBar {
             if(result.isPresent()){
                 if(result.get() == ButtonType.OK){
                     Stage currentStage = (Stage) getScene().getWindow();
-                    MainMenu mainMenu = new MainMenu();
-                    mainMenu.start(new Stage());
+                    GameApp gameApp = new GameApp();
+                    gameApp.start(new Stage());
                     currentStage.close();
                 }
             }
