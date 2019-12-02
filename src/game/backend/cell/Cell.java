@@ -10,6 +10,7 @@ public class Cell {
 	private Grid grid;
 	private Cell[] around = new Cell[Direction.values().length];
 	private Element content;
+	private boolean functionality = false;
 	
 	public Cell(Grid grid) {
 		this.grid = grid;
@@ -38,7 +39,11 @@ public class Cell {
 	public Element getContent() {
 		return content;
 	}
-	
+
+	public boolean hasFunctionality(){return functionality;}
+
+	public void changeFunctionality(){functionality = !functionality;}
+
 	public void clearContent() {
 		if (content.isMovable()) {
 			Direction[] explosionCascade = content.explode();
