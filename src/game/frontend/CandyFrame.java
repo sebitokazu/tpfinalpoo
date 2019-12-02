@@ -34,20 +34,20 @@ public class CandyFrame extends VBox {
 		game.initGame();
 		GameListener listener;
 		game.addGameListener(listener = new GameListener() {
-			@Override
-			public void gridUpdated() {
-				Timeline timeLine = new Timeline();
-				Duration frameGap = Duration.millis(100);
-				Duration frameTime = Duration.ZERO;
-				for (int i = game().getSize() - 1; i >= 0; i--) {
-					for (int j = game().getSize() - 1; j >= 0; j--) {
-						int finalI = i;
-						int finalJ = j;
-						Cell cell = CandyFrame.this.game.get(i, j);
-						Element element = cell.getContent();
-						Image image = images.getImage(element);
+							@Override
+							public void gridUpdated() {
+								Timeline timeLine = new Timeline();
+								Duration frameGap = Duration.millis(100);
+								Duration frameTime = Duration.ZERO;
+								for (int i = game().getSize() - 1; i >= 0; i--) {
+									for (int j = game().getSize() - 1; j >= 0; j--) {
+										int finalI = i;
+										int finalJ = j;
+										Cell cell = CandyFrame.this.game.get(i, j);
+										Element element = cell.getContent();
+										Image image = images.getImage(element);
 						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImage(finalI, finalJ, null)));
-						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImage(finalI, finalJ, image)));
+						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImageYellow(finalI, finalJ, image, cell.hasFunctionality())));
 					}
 					frameTime = frameTime.add(frameGap);
 				}
