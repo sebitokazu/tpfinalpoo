@@ -7,11 +7,18 @@ import game.backend.element.Element;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.geometry.Point2D;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.Optional;
 
 public class CandyFrame extends VBox {
 
@@ -25,6 +32,7 @@ public class CandyFrame extends VBox {
 
 	public CandyFrame(CandyGame game) {
 		this.game = game;
+        System.out.println(game.getLevel());
 		getChildren().add(new AppMenu());
 		images = new ImageManager();
 		boardPanel = new BoardPanel(game.getSize(), game.getSize(), CELL_SIZE);
@@ -46,13 +54,14 @@ public class CandyFrame extends VBox {
 										Cell cell = CandyFrame.this.game.get(i, j);
 										Element element = cell.getContent();
 										Image image = images.getImage(element);
-						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImage(finalI, finalJ, null)));
-						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImageYellow(finalI, finalJ, image, cell.hasFunctionality())));
+						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImageNull(finalI, finalJ)));
+						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImageLevel(finalI, finalJ, image, cell.hasFunctionality(), game.getLevel())));
 					}
 					frameTime = frameTime.add(frameGap);
 				}
 				timeLine.play();
-			}
+
+        }
 			@Override
 			public void cellExplosion(Element e) {
 				//
@@ -70,15 +79,35 @@ public class CandyFrame extends VBox {
 				if (newPoint != null) {
 					System.out.println("Get second = " +  newPoint);
 					game().tryMove((int)lastPoint.getX(), (int)lastPoint.getY(), (int)newPoint.getX(), (int)newPoint.getY());
-					String message = ((Long)game().getScore()).toString();
+					long score = game().getScore();
 					if (game().isFinished()) {
+					    String message = ((Long)score).toString();
 						if (game().playerWon()) {
 							message = message + " Finished - Player Won!";
 						} else {
 							message = message + " Finished - Loser !";
 						}
+                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+						alert.setTitle("End of game!");
+						alert.setHeaderText(((Long)score).toString());
+						alert.setContentText("Start a new game?");
+
+                        ButtonType backToMainButton = new ButtonType("Back to main menu", ButtonBar.ButtonData.BACK_PREVIOUS);;
+                        ButtonType exitButton = new ButtonType("Close game", ButtonBar.ButtonData.FINISH);
+                        alert.getButtonTypes().setAll(backToMainButton,exitButton);
+                        Optional<ButtonType> result = alert.showAndWait();
+
+                        if(result.get() == backToMainButton){
+                            Stage currentStage = (Stage) getScene().getWindow();
+                            GameApp gameApp = new GameApp();
+                            gameApp.start(new Stage());
+                            currentStage.close();
+                        } else {
+                            Platform.exit();
+                        }
 					}
-					scorePanel.updateScore(message);
+					scorePanel.updateScore(score);
+					scorePanel.updateMoves(game().getMoves());
 					lastPoint = null;
 				}
 			}

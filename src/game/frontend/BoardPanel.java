@@ -24,13 +24,30 @@ public class BoardPanel extends TilePane {
 			}
 		}
 	}
+
+	public void setImageLevel(int row, int column, Image image, boolean hasFunctionality, String level){
+	    switch (level){
+            case "Level 1":
+                setImage(row, column, image);
+                break;
+            case "Level 2":
+                setImageYellow(row,column,image, hasFunctionality);
+                break;
+            default:
+                throw new IllegalArgumentException("No such level");
+        }
+    }
+
+    public void setImageNull(int row, int column){
+        cells[row][column].setImage(null);
+    }
 	
-	public void setImage(int row, int column, Image image) {
+	private void setImage(int row, int column, Image image) {
 		cells[row][column].setImage(image);
 
 	}
 
-	public void setImageYellow(int row, int column, Image image, boolean isGolden){
+	private void setImageYellow(int row, int column, Image image, boolean isGolden){
 		setImage(row,column,image);
 		if(isGolden) {
 			Light.Distant spotLight = new Light.Distant();
