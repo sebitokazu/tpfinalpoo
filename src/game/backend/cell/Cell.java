@@ -7,9 +7,9 @@ import game.backend.move.Direction;
 
 public class Cell {
 	
-	private Grid grid;
-	private Cell[] around = new Cell[Direction.values().length];
-	private Element content;
+	protected Grid grid;
+	protected Cell[] around = new Cell[Direction.values().length];
+	protected Element content;
 	private boolean functionality = false;
 	
 	public Cell(Grid grid) {
@@ -36,6 +36,10 @@ public class Cell {
 		return !content.isSolid();
 	}
 
+	public Element getContent(int state){
+	    return getContent();
+    }
+
 	public Element getContent() {
 		return content;
 	}
@@ -43,6 +47,14 @@ public class Cell {
 	public boolean hasFunctionality(){return functionality;}
 
 	public void changeFunctionality(){functionality = !functionality;}
+
+    public Element getAndClearContent(int state){
+        return getAndClearContent();
+    }
+
+    public boolean fallUpperContent(int state){
+        return fallUpperContent();
+    }
 
 	public void clearContent() {
 		if (content.isMovable()) {

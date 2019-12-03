@@ -10,12 +10,17 @@ public abstract class Level extends Grid {
     protected Cell wallCell;
     protected Cell candyGenCell;
 
+    protected void setGeneratorCell(){
+        candyGenCell = new CandyGeneratorCell(this);
+    }
+
     @Override
     protected void fillCells(){
-
+        setGeneratorCell();
         wallCell = new Cell(this);
         wallCell.setContent(new Wall());
-        candyGenCell = new CandyGeneratorCell(this);
+
+
 
         //corners
         g()[0][0].setAround(candyGenCell, g()[1][0], wallCell, g()[0][1]);
