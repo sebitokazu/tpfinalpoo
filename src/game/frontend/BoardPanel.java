@@ -31,8 +31,11 @@ public class BoardPanel extends TilePane {
                 setImage(row, column, image);
                 break;
             case "Level 2":
-                setImageYellow(row,column,image, hasFunctionality);
+                setImageLevel2(row,column,image, hasFunctionality);
                 break;
+			case "Level 3":
+				setImage(row,column,image);
+				break;
             default:
                 throw new IllegalArgumentException("No such level");
         }
@@ -47,7 +50,7 @@ public class BoardPanel extends TilePane {
 
 	}
 
-	private void setImageYellow(int row, int column, Image image, boolean isGolden){
+	private void setImageLevel2(int row, int column, Image image, boolean isGolden){
 		setImage(row,column,image);
 		if(isGolden) {
 			Light.Distant spotLight = new Light.Distant();

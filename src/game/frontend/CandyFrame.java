@@ -32,7 +32,6 @@ public class CandyFrame extends VBox {
 
 	public CandyFrame(CandyGame game) {
 		this.game = game;
-        System.out.println(game.getLevel());
 		getChildren().add(new AppMenu());
 		images = new ImageManager();
 		boardPanel = new BoardPanel(game.getSize(), game.getSize(), CELL_SIZE);
@@ -40,6 +39,10 @@ public class CandyFrame extends VBox {
 		scorePanel = new ScorePanel();
 		getChildren().add(scorePanel);
 		game.initGame();
+		scorePanel.setMaxMoves(game().getMovesLeft());
+        if(game().hasFunctionality()){
+            scorePanel.setFunctionalityVisible(game().getLevel(), game().getInfo());
+        }
 		GameListener listener;
 		game.addGameListener(listener = new GameListener() {
 							@Override
@@ -69,7 +72,6 @@ public class CandyFrame extends VBox {
 		});
 
 		listener.gridUpdated();
-
 		addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 			if (lastPoint == null) {
 				lastPoint = translateCoords(event.getX(), event.getY());
@@ -80,16 +82,21 @@ public class CandyFrame extends VBox {
 					System.out.println("Get second = " +  newPoint);
 					game().tryMove((int)lastPoint.getX(), (int)lastPoint.getY(), (int)newPoint.getX(), (int)newPoint.getY());
 					long score = game().getScore();
+                    scorePanel.updateScore(score);
+                    scorePanel.updateMoves(game().getMovesLeft());
+                    if(game().hasFunctionality()){
+                        scorePanel.updateInfo(game().getInfo());
+                    }
 					if (game().isFinished()) {
 					    String message = ((Long)score).toString();
 						if (game().playerWon()) {
-							message = message + " Finished - Player Won!";
+							message =  " Finished - Player Won!";
 						} else {
-							message = message + " Finished - Loser !";
+							message = " Finished - Loser !";
 						}
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 						alert.setTitle("End of game!");
-						alert.setHeaderText(((Long)score).toString());
+						alert.setHeaderText(((Long)score).toString() + message);
 						alert.setContentText("Start a new game?");
 
                         ButtonType backToMainButton = new ButtonType("Back to main menu", ButtonBar.ButtonData.BACK_PREVIOUS);;
@@ -106,8 +113,6 @@ public class CandyFrame extends VBox {
                             Platform.exit();
                         }
 					}
-					scorePanel.updateScore(score);
-					scorePanel.updateMoves(game().getMoves());
 					lastPoint = null;
 				}
 			}
