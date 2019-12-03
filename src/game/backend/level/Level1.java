@@ -28,11 +28,10 @@ public class Level1 extends Level {
 	
 	private class Level1State extends GameState {
 		private long requiredScore;
-		private long maxMoves;
 		
 		public Level1State(long requiredScore, int maxMoves) {
+		    super(maxMoves);
 			this.requiredScore = requiredScore;
-			this.maxMoves = maxMoves;
 		}
 		
 		public boolean gameOver() {

@@ -5,11 +5,12 @@ import game.backend.GameState;
 public class Level2 extends Level {
 
     private static int MAX_MOVES = 20;
-    private int toGoldCells = SIZE*SIZE;
+    private int TO_GOLD_CELLS = SIZE*SIZE;
+    private Level2State internalState = new Level2State(TO_GOLD_CELLS,MAX_MOVES);
 
     @Override
     protected GameState newState() {
-        return null;
+        return internalState;
     }
 
     @Override
@@ -19,12 +20,12 @@ public class Level2 extends Level {
             state().addMove();
             if(i1-i2 == 0){
                 System.out.println("HORIZONTAL");
-                toGoldCells-=goldRow(i1);
+                internalState.goldCells(goldRow(i1));
             }else{
                 System.out.println("VERTICAL");
-                toGoldCells-=goldCol(j1);
+                internalState.goldCells(goldCol(j1));
             }
-            System.out.println(toGoldCells);
+           // System.out.println(internalState.getToGoldCells());
             System.out.println(String.format("Point1 = [%d,%d] - Point2 = [%d,%d]",i1,j1,i2,j2));
         }
         return ret;
@@ -57,12 +58,11 @@ public class Level2 extends Level {
     }
 
     private class Level2State extends GameState {
-        private int ungoldedCells;
-        private int maxMoves;
+        private int toGoldCells;
 
-        public Level2State(int ungoldedCells, int maxMoves) {
-            this.ungoldedCells = ungoldedCells;
-            this.maxMoves = maxMoves;
+        public Level2State(int toGoldCells, int maxMoves) {
+            super(maxMoves);
+            this.toGoldCells = toGoldCells;
         }
 
         public boolean gameOver() {
@@ -70,7 +70,24 @@ public class Level2 extends Level {
         }
 
         public boolean playerWon() {
-            return ungoldedCells == 0;
+            return getToGoldCells() == 0;
+        }
+
+        @Override
+        public boolean hasFunctionality() {
+            return true;
+        }
+
+        @Override
+        public int getInfo() {
+            return getToGoldCells();
+        }
+
+        public void goldCells(int qty){
+            toGoldCells-=qty;
+        }
+        public int getToGoldCells() {
+            return toGoldCells;
         }
     }
 }

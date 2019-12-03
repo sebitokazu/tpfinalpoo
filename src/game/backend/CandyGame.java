@@ -34,13 +34,13 @@ public class CandyGame implements GameListener {
 	public void addGameListener(GameListener listener) {
 		grid.addListener(listener);
 	}
-	
+
 	public long getScore() {
 		return state.getScore();
 	}
 
-	public int getMoves(){
-		return state.getMoves();
+	public int getMovesLeft(){
+		return state.getMovesLeft();
 	}
 	
 	public boolean isFinished() {
@@ -54,7 +54,11 @@ public class CandyGame implements GameListener {
 	public String getLevel(){
 		return grid.toString();
 	}
-	
+
+	public boolean hasFunctionality(){return state.hasFunctionality();}
+
+	public int getInfo(){return state.getInfo();}
+
 	@Override
 	public void cellExplosion(Element e) {
 		state.addScore(e.getScore());
