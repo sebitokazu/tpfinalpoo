@@ -1,15 +1,23 @@
 package game.backend.level;
 
 import game.backend.GameState;
+import game.backend.Grid;
+import game.backend.cell.Cell;
+import game.backend.cell.FruitCell;
 import game.backend.cell.FruitGeneratorCell;
+import game.backend.element.Element;
 
 public class Level3 extends Level {
     private static int REQUIRED_FRUITS = 5;
-    private static int MAX_MOVES = 20;
-    private static int MAX_FRUITS_IN_GAME = 2;
-    private FruitGeneratorCell fruitGeneratorCell = new FruitGeneratorCell(this);
+    private static int MAX_MOVES = 50;
+    private FruitGeneratorCell fruitGeneratorCell = new FruitGeneratorCell(this, REQUIRED_FRUITS);
 
-    private Level3State internalState = new Level3State(REQUIRED_FRUITS,MAX_MOVES,MAX_FRUITS_IN_GAME);
+    private Level3State internalState = new Level3State(REQUIRED_FRUITS,MAX_MOVES);
+
+    @Override
+    protected Cell getNewCell() {
+        return new FruitCell(this);
+    }
 
     @Override
     protected GameState newState() {
@@ -28,22 +36,47 @@ public class Level3 extends Level {
 
     @Override
     public void fallElements() {
-        fruitGeneratorCell.updateState(internalState.getState());
         super.fallElements();
+    }
 
+    @Override
+    public boolean tryMove(int i1, int j1, int i2, int j2) {
+        boolean validMove = super.tryMove(i1, j1, i2, j2);
+        if(validMove){
+            //state().addMove();
+            if(g()[i1][j1].getContent().getKey().equals("FRUIT") && i2 == SIZE-1){
+                System.out.println("X1:"+i1+",X2:"+i2);
+                updateBottomLine(i2);
+            }
+        }
+        return validMove;
+    }
+
+    private void updateBottomLine(int y){
+        System.out.println(g()[SIZE-1][y]);
+        System.out.println(g()[SIZE-1][y].getContent().getKey());
+        g()[SIZE-1][y].clearContent();
+        fallElements();
+    }
+
+    @Override
+    public void cellExplosion(Element e) {
+        super.cellExplosion(e);
+        if(e.getKey().equals("FRUIT")){
+            internalState.collectFruit();
+        }
     }
 
     private class Level3State extends GameState {
         private int requiredFruits;
-        private int fruitsInGame;
-        private int wonFruits;
-        private int maxFruitsInGame;
+        private int fruitsCollected;
+        private int maxMoves;
 
-        public Level3State(int requiredFruits, int maxMoves, int maxFruitsInGame) {
+        public Level3State(int requiredFruits, int maxMoves) {
             super(maxMoves);
             this.requiredFruits = requiredFruits;
-            this.fruitsInGame = 0;
-            this.maxFruitsInGame = maxFruitsInGame;
+            this.maxMoves = maxMoves;
+            fruitsCollected = 0;
         }
 
         public boolean gameOver() {
@@ -51,29 +84,20 @@ public class Level3 extends Level {
         }
 
         public boolean playerWon() {
-            return wonFruits >= requiredFruits;
+            return fruitsCollected >= requiredFruits;
         }
 
         @Override
-        public int getInfo() { return requiredFruits - wonFruits; }
-
-        public int getState(){
-            int i = maxFruitsInGame - fruitsInGame;
-            if(maxFruitsInGame == i){
-                return 1;
-            } else{
-                if(i == 0){
-                    return -1;
-                }
-                else {
-                    return 0;
-                }
-            }
+        public boolean hasFunctionality() {
+            return true;
         }
-        public int getWonFruits(){ return wonFruits; }
-        public void addFruit(){ wonFruits++; }
-        public void incrementFruitsInGame(){ fruitsInGame++; }
-        public void decrementFruitsInGame(){ fruitsInGame--; }
+
+        @Override
+        public int getInfo() { return requiredFruits - fruitsCollected; }
+
+        public void collectFruit(){
+            fruitsCollected++;
+        }
     }
 
 }
