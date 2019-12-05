@@ -5,39 +5,30 @@ import game.backend.element.*;
 import game.backend.move.Direction;
 
 public class FruitGeneratorCell extends CandyGeneratorCell {
-    private int currentState;
-    private final int PROBABILITY = 5;
-    private boolean createdFruit;
+    private final int PROBABILITY = 1;
+    private int fruits;
 
-    public FruitGeneratorCell(Grid grid) {
+    public FruitGeneratorCell(Grid grid, int fruits) {
         super(grid);
-        currentState = -1;
+        this.fruits = fruits;
     }
 
     @Override
     public Element getContent() {
-        if(currentState == 0){
-            return super.getContent();
-        }else if(currentState > 0){
-            int i = (int)(Math.random() * FruitType.values().length);
-            createdFruit = true;
-            return new Fruit(FruitType.values()[i]);
-        }else{
+        if(fruits != 0){
             if(getProbability()<=PROBABILITY){
                 int i = (int)(Math.random() * FruitType.values().length);
-                createdFruit = true;
+                fruits--;
                 return new Fruit(FruitType.values()[i]);
             }else{
                 return super.getContent();
             }
         }
+        return super.getContent();
     }
 
     private int getProbability(){
         return (int)(Math.random()*100);
     }
 
-    public void updateState(int newState){
-        currentState = newState;
-    }
 }
