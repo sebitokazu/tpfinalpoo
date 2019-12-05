@@ -40,6 +40,9 @@ public class ScorePanel extends BorderPane {
             case "Level 2":
                 infoText = "UNGOLDED: ";
                 break;
+            case "Level 3":
+                infoText = "TO COLLECT: ";
+                break;
             default:
                 throw new IllegalArgumentException("No such level");
         }
