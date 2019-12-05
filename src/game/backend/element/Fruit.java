@@ -4,12 +4,9 @@ public class Fruit extends Element {
 
     private FruitType type;
 
-    public Fruit(){}
     public Fruit(FruitType type){ this.type = type; }
 
     public FruitType getType(){ return type; }
-
-    public void setType(FruitType type){ this.type = type; }
 
     @Override
     public boolean isMovable() { return true; }

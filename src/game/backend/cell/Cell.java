@@ -36,10 +36,6 @@ public class Cell {
 		return !content.isSolid();
 	}
 
-	public Element getContent(int state){
-	    return getContent();
-    }
-
 	public Element getContent() {
 		return content;
 	}
@@ -47,14 +43,6 @@ public class Cell {
 	public boolean hasFunctionality(){return functionality;}
 
 	public void changeFunctionality(){functionality = !functionality;}
-
-    public Element getAndClearContent(int state){
-        return getAndClearContent();
-    }
-
-    public boolean fallUpperContent(int state){
-        return fallUpperContent();
-    }
 
 	public void clearContent() {
 		if (content.isMovable()) {

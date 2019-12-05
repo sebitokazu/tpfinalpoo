@@ -1,13 +1,13 @@
 package game.backend.level;
 
 import game.backend.GameState;
-import game.backend.cell.Cell;
 import game.backend.cell.FruitGeneratorCell;
 
 public class Level3 extends Level {
     private static int REQUIRED_FRUITS = 5;
     private static int MAX_MOVES = 20;
     private static int MAX_FRUITS_IN_GAME = 2;
+    private FruitGeneratorCell fruitGeneratorCell = new FruitGeneratorCell(this);
 
     private Level3State internalState = new Level3State(REQUIRED_FRUITS,MAX_MOVES,MAX_FRUITS_IN_GAME);
 
@@ -23,27 +23,14 @@ public class Level3 extends Level {
 
     @Override
     protected void setGeneratorCell() {
-        candyGenCell = new FruitGeneratorCell(this);
+        candyGenCell = fruitGeneratorCell;
     }
-
 
     @Override
     public void fallElements() {
-        int i = SIZE - 1;
-        while (i >= 0) {
-            int j = 0;
-            while (j < SIZE) {
-                if (getCell(i,j).isEmpty()) {
-                    if (this.getCell(i,j).fallUpperContent(internalState.getState())) {
-                        i = SIZE;
-                        j = -1;
-                        break;
-                    }
-                }
-                j++;
-            }
-            i--;
-        }
+        fruitGeneratorCell.updateState(internalState.getState());
+        super.fallElements();
+
     }
 
     private class Level3State extends GameState {
