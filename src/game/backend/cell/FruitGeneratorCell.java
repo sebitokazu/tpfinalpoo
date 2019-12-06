@@ -2,20 +2,20 @@ package game.backend.cell;
 
 import game.backend.Grid;
 import game.backend.element.*;
-import game.backend.move.Direction;
 
 public class FruitGeneratorCell extends CandyGeneratorCell {
     private final int PROBABILITY = 1;
     private int fruits;
+    private int totalFruits;
 
     public FruitGeneratorCell(Grid grid, int fruits) {
         super(grid);
-        this.fruits = fruits;
+        this.fruits = totalFruits = fruits;
     }
 
     @Override
     public Element getContent() {
-        if(fruits != 0){
+        if(fruits > 0){
             if(getProbability()<=PROBABILITY){
                 int i = (int)(Math.random() * FruitType.values().length);
                 fruits--;
@@ -25,6 +25,11 @@ public class FruitGeneratorCell extends CandyGeneratorCell {
             }
         }
         return super.getContent();
+    }
+
+    //Emparcha la posibilidad de que se colecte una fruta por un combo en la generacion del tablero
+    public void resetFruits(int toReAdd){
+        fruits += toReAdd;
     }
 
     private int getProbability(){

@@ -41,7 +41,7 @@ public abstract class Grid {
 		figureDetector = new FigureDetector(this);
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
-				g[i][j] = getNewCell();//new Cell(this);
+				g[i][j] = getNewCell();
 				gMap.put(g[i][j], new Point(i,j));
 			}
 		}

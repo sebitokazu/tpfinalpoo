@@ -41,7 +41,6 @@ public class FruitCell extends Cell {
 
     //Devuelve si la celda en la direccion DOWN tiene un Wall
     private boolean hasBottomCell(){
-        //System.out.println(this.around[Direction.DOWN.ordinal()]);
         return this.around[Direction.DOWN.ordinal()].getContent().getKey().equals("WALL");
     }
 }

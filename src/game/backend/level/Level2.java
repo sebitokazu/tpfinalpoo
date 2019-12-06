@@ -19,14 +19,10 @@ public class Level2 extends Level {
         if (ret = super.tryMove(i1, j1, i2, j2)) {
             state().addMove();
             if(i1-i2 == 0){
-                System.out.println("HORIZONTAL");
                 internalState.goldCells(goldRow(i1));
             }else{
-                System.out.println("VERTICAL");
                 internalState.goldCells(goldCol(j1));
             }
-           // System.out.println(internalState.getToGoldCells());
-            System.out.println(String.format("Point1 = [%d,%d] - Point2 = [%d,%d]",i1,j1,i2,j2));
         }
         return ret;
     }

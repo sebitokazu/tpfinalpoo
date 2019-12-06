@@ -51,7 +51,7 @@ public class MoveMaker {
 		map.put(new Bomb().getKey() + new VerticalStripedCandy().getKey(), new BombStrippedMove(grid));
 		map.put(new Bomb().getKey() + new WrappedCandy().getKey(), new BombWrappedMove(grid));
 		map.put(new Bomb().getKey() + new Bomb().getKey(), new TwoBombMove(grid));
-		map.put(new Bomb().getKey() + new Fruit().getKey(), new BombMove(grid));
+		map.put(new Bomb().getKey() + new Fruit().getKey(), new CandyMove(grid));
 
 		map.put(new Fruit().getKey() + new Candy().getKey(), new CandyMove(grid));
 		map.put(new Fruit().getKey() + new HorizontalStripedCandy().getKey(), new CandyMove(grid));
@@ -63,8 +63,6 @@ public class MoveMaker {
 	}
 	
 	public Move getMove(int i1, int j1, int i2, int j2) {
-		System.out.println(grid.get(i1, j1).getKey());
-		System.out.println(grid.get(i2, j2).getKey());
 		Move move = map.get(grid.get(i1, j1).getKey() + grid.get(i2, j2).getKey());
 		move.setCoords(i1, j1, i2, j2);
 		return move;

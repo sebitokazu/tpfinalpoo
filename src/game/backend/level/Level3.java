@@ -20,6 +20,18 @@ public class Level3 extends Level {
     }
 
     @Override
+    public void initialize() {
+        super.initialize();
+        int i;
+        if( (i = internalState.getFruitsToCollect()) != REQUIRED_FRUITS){
+            fruitGeneratorCell.resetFruits(REQUIRED_FRUITS - i);
+            internalState.resetFruitCounter();
+        }
+    }
+
+
+
+    @Override
     protected GameState newState() {
         return internalState;
     }
@@ -43,18 +55,15 @@ public class Level3 extends Level {
     public boolean tryMove(int i1, int j1, int i2, int j2) {
         boolean validMove = super.tryMove(i1, j1, i2, j2);
         if(validMove){
-            //state().addMove();
-            if(g()[i1][j1].getContent().getKey().equals("FRUIT") && i2 == SIZE-1){
-                System.out.println("X1:"+i1+",X2:"+i2);
-                updateBottomLine(i2);
+            state().addMove();
+            if(g()[SIZE -1][j1].getContent().getKey().equals("FRUIT")){
+                updateBottomLine(j1);
             }
         }
         return validMove;
     }
 
     private void updateBottomLine(int y){
-        System.out.println(g()[SIZE-1][y]);
-        System.out.println(g()[SIZE-1][y].getContent().getKey());
         g()[SIZE-1][y].clearContent();
         fallElements();
     }
@@ -69,14 +78,13 @@ public class Level3 extends Level {
 
     private class Level3State extends GameState {
         private int requiredFruits;
-        private int fruitsCollected;
+        private int fruitsToCollect;
         private int maxMoves;
 
         public Level3State(int requiredFruits, int maxMoves) {
             super(maxMoves);
-            this.requiredFruits = requiredFruits;
+            this.requiredFruits = fruitsToCollect = requiredFruits;
             this.maxMoves = maxMoves;
-            fruitsCollected = 0;
         }
 
         public boolean gameOver() {
@@ -84,19 +92,26 @@ public class Level3 extends Level {
         }
 
         public boolean playerWon() {
-            return fruitsCollected >= requiredFruits;
+            return getFruitsToCollect() == 0;
         }
 
         @Override
         public boolean hasFunctionality() {
             return true;
         }
-
         @Override
-        public int getInfo() { return requiredFruits - fruitsCollected; }
+        public int getInfo() { return getFruitsToCollect(); }
+
+        public int getFruitsToCollect() {
+            return fruitsToCollect;
+        }
 
         public void collectFruit(){
-            fruitsCollected++;
+            fruitsToCollect--;
+        }
+
+        public void resetFruitCounter(){
+            fruitsToCollect = requiredFruits;
         }
     }
 
