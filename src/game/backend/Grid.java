@@ -48,7 +48,7 @@ public abstract class Grid {
 		fillCells();
 		fallElements();
 	}
-
+	//devuelve una nueva instancia de Cell
 	protected Cell getNewCell(){
 		return new Cell(this);
 	}

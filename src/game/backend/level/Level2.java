@@ -13,11 +13,11 @@ public class Level2 extends Level {
         return internalState;
     }
 
+    //si se realizo un movimiento valido, se fija si es horizontal o vertical y llama a goldRow o goldCol respectivamente
     @Override
     public boolean tryMove(int i1, int j1, int i2, int j2) {
         boolean ret;
         if (ret = super.tryMove(i1, j1, i2, j2)) {
-            state().addMove();
             if(i1-i2 == 0){
                 internalState.goldCells(goldRow(i1));
             }else{
@@ -27,6 +27,7 @@ public class Level2 extends Level {
         return ret;
     }
 
+    //para una fila, cambia el estado de las celdas que no estaban doradas y retorna cuantas se pintaron
     private int goldRow(int row){
         int painted = 0;
         for(int i=0; i<SIZE;i++){
@@ -37,6 +38,8 @@ public class Level2 extends Level {
         }
         return painted;
     }
+
+    //para una columna, cambia el estado de las celdas que no estaban doradas y retorna cuantas se pintaron
     private int goldCol(int col){
         int painted = 0;
         for(int i=0; i<SIZE;i++){
@@ -53,7 +56,7 @@ public class Level2 extends Level {
         return "Level 2";
     }
 
-    private class Level2State extends GameState {
+    private static class Level2State extends GameState {
         private int toGoldCells;
 
         public Level2State(int toGoldCells, int maxMoves) {
@@ -66,24 +69,25 @@ public class Level2 extends Level {
         }
 
         public boolean playerWon() {
-            return getToGoldCells() == 0;
+            return toGoldCells == 0;
         }
 
+        //indica que hay informacion adicional en este nivel
         @Override
         public boolean hasFunctionality() {
             return true;
         }
 
+        //devuelve la cantidad de casilleros que faltan pintar de dorado
         @Override
         public int getInfo() {
-            return getToGoldCells();
+            return toGoldCells;
         }
 
+        //decrementa la canntidad de celdas que se pintaron
         public void goldCells(int qty){
             toGoldCells-=qty;
         }
-        public int getToGoldCells() {
-            return toGoldCells;
-        }
+
     }
 }
