@@ -40,8 +40,9 @@ public class CandyFrame extends VBox {
 		getChildren().add(scorePanel);
 		game.initGame();
 		scorePanel.setMaxMoves(game().getMovesLeft());
+		//define el texto si debe mostrar informacion adicional
         if(game().hasFunctionality()){
-            scorePanel.setFunctionalityVisible(game().getLevel(), game().getInfo());
+            scorePanel.setInfoText(game().getLevel(), game().getInfo());
         }
 		GameListener listener;
 		game.addGameListener(listener = new GameListener() {
@@ -88,7 +89,7 @@ public class CandyFrame extends VBox {
                         scorePanel.updateInfo(game().getInfo());
                     }
 					if (game().isFinished()) {
-					    String message = ((Long)score).toString();
+					    String message;
 						if (game().playerWon()) {
 							message =  " Finished - Player Won!";
 						} else {

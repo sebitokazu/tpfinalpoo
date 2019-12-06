@@ -11,6 +11,7 @@ public class ImageManager {
 	private static final String IMAGE_PATH = "images/";
 	private Map<String, Image> images;
 
+	//se agregaron las imagenes de las frutas
 	public ImageManager() {
 		WrappedCandy wc = new WrappedCandy();
 		VerticalStripedCandy vc = new VerticalStripedCandy();

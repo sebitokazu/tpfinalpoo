@@ -15,7 +15,7 @@ public class MoveMaker {
 		this.grid = grid;
 		initMap();
 	}
-
+	//se agregaron los movimientos con el elemento fruta
 	private void initMap(){
 		map = new HashMap<>();
 		map.put(new Candy().getKey() + new Candy().getKey(), new CandyMove(grid));

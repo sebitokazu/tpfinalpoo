@@ -8,8 +8,6 @@ public class Fruit extends Element {
 
     public Fruit(FruitType type){ this.type = type; }
 
-    public FruitType getType(){ return type; }
-
     @Override
     public boolean isMovable() { return true; }
 
