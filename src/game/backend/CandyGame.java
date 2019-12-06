@@ -34,9 +34,14 @@ public class CandyGame implements GameListener {
 	public void addGameListener(GameListener listener) {
 		grid.addListener(listener);
 	}
-	
+
 	public long getScore() {
 		return state.getScore();
+	}
+
+	//devuelve los movimientos restantes del usuario
+	public int getMovesLeft(){
+		return state.getMovesLeft();
 	}
 	
 	public boolean isFinished() {
@@ -46,7 +51,18 @@ public class CandyGame implements GameListener {
 	public boolean playerWon() {
 		return state.playerWon();
 	}
-	
+
+	//devuelve el String correspondiente al nivel elegido
+	public String getLevel(){
+		return grid.toString();
+	}
+
+	//devuelve si se agrego funcionalidad a la celda
+	public boolean hasFunctionality(){return state.hasFunctionality();}
+
+	//devuelve la informacion respecto al nivel seleccionado
+	public int getInfo(){return state.getInfo();}
+
 	@Override
 	public void cellExplosion(Element e) {
 		state.addScore(e.getScore());
