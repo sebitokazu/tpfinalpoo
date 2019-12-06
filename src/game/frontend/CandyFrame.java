@@ -18,6 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class CandyFrame extends VBox {
@@ -30,11 +32,19 @@ public class CandyFrame extends VBox {
 	private Point2D lastPoint;
 	private CandyGame game;
 
+	private Map<String, BoardPanel> boardPanels = new HashMap<>();
+
 	public CandyFrame(CandyGame game) {
+		boardPanels.put("Level 1", new BoardPanel());
+		boardPanels.put("Level 2", new BoardPanelLevel2());
+		boardPanels.put("Level 3", new BoardPanel());
+
 		this.game = game;
 		getChildren().add(new AppMenu());
 		images = new ImageManager();
-		boardPanel = new BoardPanel(game.getSize(), game.getSize(), CELL_SIZE);
+		//selecciono el BoardPanel del nivel seleccionado
+		boardPanel = boardPanels.get(game.getLevel());
+		boardPanel.initialize(game.getSize(),game.getSize(),CELL_SIZE);
 		getChildren().add(boardPanel);
 		scorePanel = new ScorePanel();
 		getChildren().add(scorePanel);
@@ -59,7 +69,7 @@ public class CandyFrame extends VBox {
 										Element element = cell.getContent();
 										Image image = images.getImage(element);
 						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImageNull(finalI, finalJ)));
-						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImageLevel(finalI, finalJ, image, cell.hasFunctionality(), game.getLevel())));
+						timeLine.getKeyFrames().add(new KeyFrame(frameTime, e -> boardPanel.setImageLevel(finalI, finalJ, image, cell.hasFunctionality())));
 					}
 					frameTime = frameTime.add(frameGap);
 				}
