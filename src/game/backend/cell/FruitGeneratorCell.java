@@ -6,13 +6,15 @@ import game.backend.element.*;
 public class FruitGeneratorCell extends CandyGeneratorCell {
     private final int PROBABILITY = 1;
     private int fruits;
-    private int totalFruits;
 
     public FruitGeneratorCell(Grid grid, int fruits) {
         super(grid);
-        this.fruits = totalFruits = fruits;
+        this.fruits = fruits;
     }
 
+    /* si aun quedan frutas por agregar, con la probabilidad de PROBABILITY/100 se genera una fruta
+     * de lo contario, se generan cnadys
+     */
     @Override
     public Element getContent() {
         if(fruits > 0){
@@ -27,11 +29,15 @@ public class FruitGeneratorCell extends CandyGeneratorCell {
         return super.getContent();
     }
 
-    //Emparcha la posibilidad de que se colecte una fruta por un combo en la generacion del tablero
+    /* ante la posibilidad de que se colecte una fruta por un combo en la generacion del tablero
+     * creamos este metodo que resetea las frutas a crear
+     * solo debe llamarse si al generar el tablero, se recolectaron frutas
+     */
     public void resetFruits(int toReAdd){
         fruits += toReAdd;
     }
 
+    //devuelve un numero entero
     private int getProbability(){
         return (int)(Math.random()*100);
     }

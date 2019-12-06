@@ -8,6 +8,7 @@ public class FruitCell extends Cell {
         super(grid);
     }
 
+    //si la celda contiene una fruta, la elimina solo si es una celda de la ultima fila
     @Override
     public void clearContent() {
         if(!(content.getKey().equals("FRUIT"))) {
@@ -19,24 +20,16 @@ public class FruitCell extends Cell {
         }
     }
 
+    //
     @Override
     public boolean fallUpperContent() {
-        Cell up = around[Direction.UP.ordinal()];
-        if (this.isEmpty() && !up.isEmpty() && up.isMovable()) {
-            this.content = up.getAndClearContent();
+        boolean ret;
+        if(ret =super.fallUpperContent()){
             if(this.content.getKey().equals("FRUIT")){
                 clearContent();
             }
-            grid.wasUpdated();
-            if (this.hasFloor()) {
-                grid.tryRemove(this);
-                return true;
-            } else {
-                Cell down = around[Direction.DOWN.ordinal()];
-                return down.fallUpperContent();
-            }
         }
-        return false;
+        return ret;
     }
 
     //Devuelve si la celda en la direccion DOWN tiene un Wall
