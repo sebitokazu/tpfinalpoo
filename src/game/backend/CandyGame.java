@@ -39,6 +39,7 @@ public class CandyGame implements GameListener {
 		return state.getScore();
 	}
 
+	//devuelve los movimientos restantes del usuario
 	public int getMovesLeft(){
 		return state.getMovesLeft();
 	}
@@ -51,12 +52,15 @@ public class CandyGame implements GameListener {
 		return state.playerWon();
 	}
 
+	//devuelve el String correspondiente al nivel elegido
 	public String getLevel(){
 		return grid.toString();
 	}
 
+	//devuelve si se agrego funcionalidad a la celda
 	public boolean hasFunctionality(){return state.hasFunctionality();}
 
+	//devuelve la informacion respecto al nivel seleccionado
 	public int getInfo(){return state.getInfo();}
 
 	@Override
