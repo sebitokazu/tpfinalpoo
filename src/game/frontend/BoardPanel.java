@@ -28,14 +28,12 @@ public class BoardPanel extends TilePane {
 	public void setImageLevel(int row, int column, Image image, boolean hasFunctionality, String level){
 	    switch (level){
             case "Level 1":
+			case "Level 3":
                 setImage(row, column, image);
                 break;
             case "Level 2":
                 setImageLevel2(row,column,image, hasFunctionality);
                 break;
-			case "Level 3":
-				setImage(row,column,image);
-				break;
             default:
                 throw new IllegalArgumentException("No such level");
         }
@@ -45,10 +43,10 @@ public class BoardPanel extends TilePane {
         cells[row][column].setImage(null);
     }
 	
-	private void setImage(int row, int column, Image image) {
+	protected void setImage(int row, int column, Image image) {
 		cells[row][column].setImage(image);
-
 	}
+
 
 	private void setImageLevel2(int row, int column, Image image, boolean isGolden){
 		setImage(row,column,image);

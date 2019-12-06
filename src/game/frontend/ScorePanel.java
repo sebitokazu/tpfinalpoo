@@ -23,10 +23,9 @@ public class ScorePanel extends BorderPane {
 		movesLabel.setStyle("-fx-font-size: 18");
 		setRight(movesLabel);
 
-		infoLabel = new Label();
+		infoLabel = new Label("");
 		infoLabel.setAlignment(Pos.BOTTOM_LEFT);
 		infoLabel.setStyle("-fx-font-size: 18");
-        infoLabel.setVisible(false);
 		setLeft(infoLabel);
 
 	}
@@ -34,8 +33,8 @@ public class ScorePanel extends BorderPane {
 	public void setMaxMoves(int maxMoves){
 	    movesLabel.setText(MOVES+maxMoves);
     }
-
-	public void setFunctionalityVisible(String level, int initialState){
+    //setea el texto del label de informacion adicional, si el nivel lo requeria
+	public void setInfoText(String level, int initialState){
         switch (level){
             case "Level 2":
                 infoText = "UNGOLDED: ";
@@ -47,13 +46,11 @@ public class ScorePanel extends BorderPane {
                 throw new IllegalArgumentException("No such level");
         }
 	    infoLabel.setText(infoText + initialState);
-	    infoLabel.setVisible(true);
     }
 
+    //refresca la informacion adicional del nivel
     public void updateInfo(int info){
-	    if(infoLabel.isVisible()) {
             infoLabel.setText(infoText + info);
-        }
     }
 
 	public void updateScore(long score) {
