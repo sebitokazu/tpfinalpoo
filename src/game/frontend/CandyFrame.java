@@ -32,27 +32,27 @@ public class CandyFrame extends VBox {
 	private Point2D lastPoint;
 	private CandyGame game;
 
-	private Map<String, BoardPanel> boardPanels = new HashMap<>();
+	private Map<String, Panel> panelsMap = new HashMap<>();
 
 	public CandyFrame(CandyGame game) {
-		boardPanels.put("Level 1", new BoardPanel());
-		boardPanels.put("Level 2", new BoardPanelLevel2());
-		boardPanels.put("Level 3", new BoardPanel());
+		panelsMap.put("Level 1", new Panel(new ScorePanel(),new BoardPanel()));
+		panelsMap.put("Level 2", new Panel(new ScorePanelLevel2(),new BoardPanelLevel2()));
+		panelsMap.put("Level 3", new Panel(new ScorePanelLevel3(), new BoardPanel()));
 
 		this.game = game;
 		getChildren().add(new AppMenu());
 		images = new ImageManager();
 		//selecciono el BoardPanel del nivel seleccionado
-		boardPanel = boardPanels.get(game.getLevel());
+		boardPanel = panelsMap.get(game.getLevel()).getBoardPanel();
 		boardPanel.initialize(game.getSize(),game.getSize(),CELL_SIZE);
 		getChildren().add(boardPanel);
-		scorePanel = new ScorePanel();
+		scorePanel = panelsMap.get(game.getLevel()).getScorePanel();
 		getChildren().add(scorePanel);
 		game.initGame();
 		scorePanel.setMaxMoves(game().getMovesLeft());
 		//define el texto si debe mostrar informacion adicional
         if(game().hasFunctionality()){
-            scorePanel.setInfoText(game().getLevel(), game().getInfo());
+            scorePanel.updateInfo(game().getInfo());
         }
 		GameListener listener;
 		game.addGameListener(listener = new GameListener() {

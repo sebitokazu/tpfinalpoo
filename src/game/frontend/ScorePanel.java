@@ -8,8 +8,9 @@ public class ScorePanel extends BorderPane {
 
 	private static final String SCORE = "SCORE: ", MOVES = "MOVES LEFT: ";
 
-	private Label scoreLabel, movesLabel, infoLabel;
-	private String infoText;
+	private Label scoreLabel, movesLabel;
+	protected Label infoLabel;
+	protected String infoText;
 
 	public ScorePanel() {
 		setStyle("-fx-background-color: #5490ff");
@@ -33,6 +34,7 @@ public class ScorePanel extends BorderPane {
 	public void setMaxMoves(int maxMoves){
 	    movesLabel.setText(MOVES+maxMoves);
     }
+
     //setea el texto del label de informacion adicional, si el nivel lo requeria
 	public void setInfoText(String level, int initialState){
         switch (level){
