@@ -4,7 +4,7 @@ import game.backend.GameState;
 
 public class Level2 extends Level {
 
-    private static int MAX_MOVES = 20;
+    private static int MAX_MOVES = 40;
     private int TO_GOLD_CELLS = SIZE*SIZE;
     private Level2State internalState = new Level2State(TO_GOLD_CELLS,MAX_MOVES);
 
